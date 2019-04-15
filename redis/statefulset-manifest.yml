@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis-st
+  namespace: slackishapp
+spec:
+  serviceName: redis-svc
+  template:
+    metadata:
+      name: redis
+      labels:
+        name: redis
+      namespace: slackishapp
+    spec:
+      containers:
+        - name: container-redis
+          image: redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-persistent-storage
+              persistentVolumeClaim:
+                claimName: redis-pv-claim
